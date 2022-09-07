@@ -10,6 +10,7 @@ import 'package:table_calendar/table_calendar.dart';
 import '../../constants/colors.dart';
 import '../../model/transaction_model.dart';
 import '../styles/add_transaction_style.dart';
+import '../widgets/my_drawer.dart';
 
 class HomeScreen extends StatefulWidget {
   HomeScreen({Key? key}) : super(key: key);
@@ -45,6 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: MyDrawer(),
       body: Column(
         children: [
           Container(
@@ -124,10 +126,13 @@ class _HomeScreenState extends State<HomeScreen> {
               child: FutureBuilder<List<TransactionModel>>(
             future: future,
             builder: (context, snapshot) {
-
-              return snapshot.hasData?
-                  Provider.of<TransactionController>(context,listen: false).list.isEmpty
-                      ? EmptyList(text: 'emptyListText'.tr,)
+              return snapshot.hasData
+                  ? Provider.of<TransactionController>(context, listen: false)
+                          .list
+                          .isEmpty
+                      ? EmptyList(
+                          text: 'emptyListText'.tr,
+                        )
                       : ListView.separated(
                           itemCount: Provider.of<TransactionController>(context)
                               .list
@@ -169,13 +174,15 @@ class _HomeScreenState extends State<HomeScreen> {
                           },
                         )
                   : snapshot.hasError
-                      ? ErrorScreen(errorText: snapshot.error.toString(),)
-                      : Center(child: CircularProgressIndicator(
-                strokeWidth: 10,
-                            valueColor:
-                            AlwaysStoppedAnimation(Colors.green),
-                            backgroundColor: Colors.blue,
-              ));
+                      ? ErrorScreen(
+                          errorText: snapshot.error.toString(),
+                        )
+                      : Center(
+                          child: CircularProgressIndicator(
+                          strokeWidth: 10,
+                          valueColor: AlwaysStoppedAnimation(Colors.green),
+                          backgroundColor: Colors.blue,
+                        ));
             },
           )),
         ],
@@ -220,7 +227,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         TextFormField(
                           keyboardType: TextInputType.text,
                           controller: descriptionController,
-                          decoration: dialogFormField(labelText: 'DescriptionText'.tr),
+                          decoration:
+                              dialogFormField(labelText: 'DescriptionText'.tr),
                         ),
                         SizedBox(
                           height: 20,

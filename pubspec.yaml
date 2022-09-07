@@ -85,6 +85,10 @@ flutter:
     - assets/images/withdraw.png
     - assets/images/errorScreen.png
     - assets/images/emptylist.png
+    - assets/images/lasfinanzas.png
+    - assets/images/ar_EG.png
+    - assets/images/en_US.png
+    - assets/images/es_ES.jpg
 
 
   # An image asset can refer to one or more resolution-specific "variants", see
