@@ -30,6 +30,7 @@ dependencies:
   flutter:
     sdk: flutter
   get: ^4.6.5
+  responsive_framework: ^0.1.4
   sizer: ^2.0.15
   font_awesome_flutter: ^10.1.0
   toggle_switch: ^2.0.1

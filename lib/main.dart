@@ -5,10 +5,15 @@ import 'package:get/get_core/src/get_main.dart';
 import 'package:mis_finanzas/controller/dashboard_provider.dart';
 import 'package:mis_finanzas/controller/month_dropdown.dart';
 import 'package:mis_finanzas/controller/transaction_controller.dart';
+import 'package:mis_finanzas/core/utils/assets_manager.dart';
 import 'package:mis_finanzas/services/shared_preferences_helper.dart';
 import 'package:mis_finanzas/views/screens/dashboard.dart';
 import 'package:provider/provider.dart';
+import 'package:sizer/sizer.dart';
 import 'localization/app_translation.dart';
+import 'package:responsive_framework/responsive_framework.dart';
+
+
 
 late final locale;
 late final theme;
@@ -36,14 +41,24 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    return GetMaterialApp(
+   return GetMaterialApp(
+      builder:(context, widget) {
+        return ResponsiveWrapper.builder(
+          ClampingScrollWrapper.builder(context, widget!),
+          breakpoints: const [
+            ResponsiveBreakpoint.resize(350, name: MOBILE),
+            ResponsiveBreakpoint.autoScale(600, name: TABLET),
+            ResponsiveBreakpoint.resize(800, name: DESKTOP),
+            ResponsiveBreakpoint.autoScale(1700, name: 'XL'),
+          ],
+        );},
       translations: AppTranslations(),
       locale: locale=='Default'? Get.deviceLocale:Locale(locale),
       debugShowCheckedModeBanner: false,
       theme: Provider.of<DashboardController>(context).theme==false? ThemeData.light():ThemeData.dark(),
       home: const SplashScreen(),
     );
+
   }
 }
 class SplashScreen extends StatelessWidget {
@@ -52,8 +67,8 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return EasySplashScreen(
-      logoWidth: 100,
-  logo: Image.asset('assets/images/splashimage.png'),
+      logoWidth:100,
+  logo: Image.asset(AssetManager.splashScreenImg),
     loaderColor: Color(0xff195176),
       navigator: Dashboard(),
     );

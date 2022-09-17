@@ -4,6 +4,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:sizer/sizer.dart';
 import '../../services/shared_preferences_helper.dart';
 
 class LanguageCircle extends StatelessWidget {
@@ -26,11 +27,11 @@ class LanguageCircle extends StatelessWidget {
         width: 60,
         height: 60,
         decoration:  BoxDecoration(
-          image: DecorationImage(image: image!),
+          image: DecorationImage(image: image!,fit: BoxFit.cover),
             shape: BoxShape.circle,
             color: Colors.brown,
             border:  Border.all(
-              width: 2.0,
+              width: 2,
               color: Colors.white,
             ),
             boxShadow: [

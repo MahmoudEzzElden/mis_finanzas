@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:mis_finanzas/core/utils/assets_manager.dart';
+import 'package:sizer/sizer.dart';
 
 class EmptyList extends StatelessWidget {
   final String? text;
@@ -8,10 +10,10 @@ class EmptyList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        Image.asset('assets/images/emptylist.png',fit: BoxFit.fitHeight,),
-        Positioned(
-          left: 85,
-            top: 50
+        Image.asset(AssetManager.emptyListImg,fit: BoxFit.fill,),
+        PositionedDirectional(
+          start: 90,
+            top:50
             ,
             child: Text(text!,style:TextStyle(fontSize: 20,fontWeight: FontWeight.bold),))
       ],

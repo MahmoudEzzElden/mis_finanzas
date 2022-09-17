@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mis_finanzas/core/utils/app_colors.dart';
 
 InputDecoration? dialogFormField({
   required String labelText,
@@ -6,11 +7,11 @@ InputDecoration? dialogFormField({
 }) =>
     InputDecoration(
       labelText: labelText,
-      labelStyle: TextStyle(color: Colors.white),
+      labelStyle: TextStyle(color: AppColors.textColor1),
       enabledBorder:OutlineInputBorder(
         borderRadius:BorderRadius.circular(10),
         borderSide: BorderSide(
-            color: Colors.white
+            color: AppColors.textColor1
         ),
 
       ),

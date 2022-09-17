@@ -3,11 +3,13 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:material_dialogs/material_dialogs.dart';
 import 'package:mis_finanzas/controller/transaction_controller.dart';
+import 'package:mis_finanzas/core/utils/app_colors.dart';
+import 'package:mis_finanzas/core/utils/assets_manager.dart';
 import 'package:mis_finanzas/views/widgets/empty_list.dart';
 import 'package:mis_finanzas/views/widgets/error_message.dart';
 import 'package:provider/provider.dart';
+import 'package:sizer/sizer.dart';
 import 'package:table_calendar/table_calendar.dart';
-import '../../constants/colors.dart';
 import '../../model/transaction_model.dart';
 import '../styles/add_transaction_style.dart';
 import '../widgets/my_drawer.dart';
@@ -50,18 +52,14 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Column(
         children: [
           Container(
-            width: double.infinity,
-            height: 300,
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height/3,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(30),
-                bottomRight: Radius.circular(30),
-              ),
-              gradient: LinearGradient(
-                  begin: Alignment.topRight,
-                  end: Alignment.bottomLeft,
-                  colors: homePageGradient),
-            ),
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(30),
+                  bottomRight: Radius.circular(30),
+                ),
+                color: AppColors.primary),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
@@ -69,14 +67,16 @@ class _HomeScreenState extends State<HomeScreen> {
                   alignment: Alignment.center,
                   child: Text(
                     'balanceText'.tr,
-                    style: TextStyle(color: Colors.white, fontSize: 18),
+                    style:
+                        TextStyle(color: AppColors.textColor1, fontSize:18),
                   ),
                 ),
                 Text(
                   NumberFormat.currency(symbol: 'EGP').format(
                       Provider.of<TransactionController>(context)
                           .currentBalance),
-                  style: TextStyle(color: Colors.white, fontSize: 24),
+                  style:
+                      TextStyle(color: AppColors.textColor1, fontSize: 24),
                 ),
               ],
             ),
@@ -104,19 +104,20 @@ class _HomeScreenState extends State<HomeScreen> {
             },
           ),
           Padding(
-            padding: const EdgeInsets.all(5),
+            padding: EdgeInsets.all(5),
             child: Align(
               alignment: Alignment.topLeft,
               child: Row(
                 children: [
                   Icon(
                     Icons.list,
-                    color: Colors.grey,
-                    size: 30,
+                    color: AppColors.greyText,
+                    size:30,
                   ),
                   Text(
                     'yourTransactionsText'.tr,
-                    style: TextStyle(fontSize: 20, color: Colors.grey),
+                    style:
+                        TextStyle(fontSize: 20, color: AppColors.greyText),
                   ),
                 ],
               ),
@@ -130,46 +131,48 @@ class _HomeScreenState extends State<HomeScreen> {
                   ? Provider.of<TransactionController>(context, listen: false)
                           .list
                           .isEmpty
-                      ? EmptyList(
-                          text: 'emptyListText'.tr,
-                        )
+                      ? Center(
+                        child: EmptyList(
+                            text: 'emptyListText'.tr,
+                          ),
+                      )
                       : ListView.separated(
                           itemCount: Provider.of<TransactionController>(context)
                               .list
                               .length,
                           separatorBuilder: (context, index) {
                             return Divider(
-                              height: 10,
+                              height:10,
                               thickness: 5,
                             );
                           },
                           itemBuilder: (context, index) {
                             return ListTile(
-                              leading: Provider.of<TransactionController>(
-                                              context)
-                                          .list[index]
-                                          .tType ==
-                                      'Withdraw'
-                                  ? Image.asset(
-                                      'assets/images/withdraw.png',
-                                    )
-                                  : Image.asset('assets/images/deposit.png'),
+                              leading:
+                                  Provider.of<TransactionController>(context)
+                                              .list[index]
+                                              .tType ==
+                                          'Withdraw'
+                                      ? Image.asset(
+                                          AssetManager.withdrawImg,
+                                        )
+                                      : Image.asset(AssetManager.depositImg),
                               title: Text(
                                   Provider.of<TransactionController>(context)
                                       .list[index]
-                                      .tName!),
+                                      .tName!,),
                               subtitle: Text(DateFormat.yMd()
                                   .format(Provider.of<TransactionController>(
                                           context)
                                       .list[index]
                                       .tDate!)
-                                  .toString()),
+                                  .toString(),),
                               trailing: Text(
                                   NumberFormat.currency(symbol: 'EGP').format(
                                       Provider.of<TransactionController>(
                                               context)
                                           .list[index]
-                                          .tAmount!)),
+                                          .tAmount!),),
                             );
                           },
                         )
@@ -181,17 +184,19 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: CircularProgressIndicator(
                           strokeWidth: 10,
                           valueColor: AlwaysStoppedAnimation(Colors.green),
-                          backgroundColor: Colors.blue,
+                          backgroundColor: AppColors.primary,
                         ));
             },
           )),
         ],
       ),
       floatingActionButton: FloatingActionButton(
+        backgroundColor: AppColors.primary,
         onPressed: () {
           Dialogs.materialDialog(
-              titleStyle: TextStyle(fontSize: 20, color: Colors.white),
-              color: Colors.blue,
+              titleStyle:
+                  TextStyle(fontSize: 20, color: AppColors.textColor1),
+              color: AppColors.primary,
               title: 'AddTransaction'.tr,
               actions: [
                 Consumer<TransactionController>(
@@ -205,19 +210,19 @@ class _HomeScreenState extends State<HomeScreen> {
                               dialogFormField(labelText: 'EnterAmount'.tr),
                         ),
                         RadioListTile<int>(
-                            activeColor: Colors.white,
+                            activeColor: AppColors.textColor1,
                             title: Text('DepositRadioButton'.tr,
-                                style: TextStyle(color: Colors.white)),
+                                style: TextStyle(color: AppColors.textColor1)),
                             value: 1,
                             groupValue: provider.radioValue,
                             onChanged: (newVal) {
                               provider.selectedValue(newVal!);
                             }),
                         RadioListTile<int>(
-                            activeColor: Colors.white,
+                            activeColor: AppColors.textColor1,
                             title: Text(
                               'WithdrawRadioButton'.tr,
-                              style: TextStyle(color: Colors.white),
+                              style: TextStyle(color: AppColors.textColor1),
                             ),
                             value: 2,
                             groupValue: provider.radioValue,
@@ -231,7 +236,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               dialogFormField(labelText: 'DescriptionText'.tr),
                         ),
                         SizedBox(
-                          height: 20,
+                          height:20,
                         ),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -242,8 +247,8 @@ class _HomeScreenState extends State<HomeScreen> {
                               },
                               child: Text('CancelButton'.tr),
                               style: ButtonStyle(
-                                backgroundColor:
-                                    MaterialStateProperty.all(Colors.blue),
+                                backgroundColor: MaterialStateProperty.all(
+                                    AppColors.buttonsColor),
                               ),
                             ),
                             ElevatedButton(
@@ -268,7 +273,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               child: Text('ConfirmButton'.tr),
                               style: ButtonStyle(
                                 backgroundColor: MaterialStateProperty.all(
-                                  Colors.blue,
+                                  AppColors.buttonsColor,
                                 ),
                               ),
                             ),

@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:mis_finanzas/controller/month_dropdown.dart';
+import 'package:mis_finanzas/core/utils/app_colors.dart';
+import 'package:mis_finanzas/core/utils/assets_manager.dart';
 import 'package:mis_finanzas/views/widgets/empty_list.dart';
 import 'package:provider/provider.dart';
+import 'package:sizer/sizer.dart';
 
 import '../../controller/transaction_controller.dart';
 import '../../model/transaction_model.dart';
@@ -21,14 +24,14 @@ class DepositScreen extends StatelessWidget {
           children: [
             Container(
               padding: EdgeInsets.all(10),
-              width: double.infinity,
-              height: 120,
+              width: MediaQuery.of(context).size.width,
+              height:MediaQuery.of(context).size.height/4,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.only(
                   bottomLeft: Radius.circular(30),
                   bottomRight: Radius.circular(30),
                 ),
-                color: Colors.green,
+                color: AppColors.depositColor,
               ),
               child: Column(
                 children: [
@@ -40,7 +43,7 @@ class DepositScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(
-                    height: 10,
+                    height:10,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -56,7 +59,7 @@ class DepositScreen extends StatelessWidget {
                             ? null
                             : Provider.of<MonthDropDown>(context)
                                 .monthOnDropDown,
-                        hint: Text('SelectMonthDropDownButton'.tr),
+                        hint: Text('SelectMonthDropDownButton'.tr,),
                         menuMaxHeight: 200,
                         items:
                             Provider.of<MonthDropDown>(context, listen: false)
@@ -88,9 +91,6 @@ class DepositScreen extends StatelessWidget {
                 ],
               ),
             ),
-            // SizedBox(
-            //   height: 30,
-            // ),
             Expanded(
                 child: FutureBuilder<List<TransactionModel>>(
               future: Provider.of<TransactionController>(context, listen: false)
@@ -102,13 +102,13 @@ class DepositScreen extends StatelessWidget {
                 return snapshot.hasData
                     ? snapshot.data!.isEmpty
                         ?
-                            EmptyList(text: 'emptyListText'.tr,)
+                            Center(child: EmptyList(text: 'emptyListText'.tr,))
                         : ListView.builder(
                             itemCount: snapshot.data!.length,
                             itemBuilder: (context, index) {
                               return ListTile(
                                 leading:
-                                    Image.asset('assets/images/deposit.png'),
+                                    Image.asset(AssetManager.depositImg),
                                 title: Text(snapshot.data![index].tName!),
                                 subtitle: Text(DateFormat('EEE - dd-MM-yyyy')
                                     .format(snapshot.data![index].tDate!)

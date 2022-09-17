@@ -1,6 +1,6 @@
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
-import '../constants/db_constants.dart';
+import '../core/constants/db_constants.dart';
 import '../model/transaction_model.dart';
 
 class DataBaseHandler {

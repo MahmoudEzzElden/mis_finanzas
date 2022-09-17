@@ -1,6 +1,8 @@
 
 
-import '../constants/db_constants.dart';
+
+
+import '../core/constants/db_constants.dart';
 
 class TransactionModel {
   final int? id;
